@@ -1,15 +1,17 @@
-![](https://img.shields.io/badge/Microverse-blueviolet)
 
-# Project Name
+# Dynamic To do List
 
-> Description the project.
+> # Description the project.
+This project is A Dynamic minimal list application which collects a list of items to do and store data to
+local storage.This data can be retrieved dynamically,can be deleted and updated.
 
 
 ## Built With
 
-- Major languages
-- Frameworks
-- Technologies used
+-HTML
+- CSS
+- JAVASCRIPT
+-WEBPACK SETUP FOR MODULE BUNDLING
 
 ## Live Demo (if available)
 
@@ -42,15 +44,10 @@ To get a local copy up and running follow these simple example steps.
 
 👤 **Author1**
 
-- GitHub: [@githubhandle](https://github.com/githubhandle)
-- Twitter: [@twitterhandle](https://twitter.com/twitterhandle)
-- LinkedIn: [LinkedIn](https://linkedin.com/in/linkedinhandle)
+- GitHub: [@githubhandle](https://github.com/afiamoah)
+- Twitter: [@twitterhandle](https://twitter.com/afiamoah)
+- LinkedIn: [LinkedIn](https://linkedin.com/in/afiamoah)
 
-👤 **Author2**
-
-- GitHub: [@githubhandle](https://github.com/githubhandle)
-- Twitter: [@twitterhandle](https://twitter.com/twitterhandle)
-- LinkedIn: [LinkedIn](https://linkedin.com/in/linkedinhandle)
 
 ## 🤝 Contributing
 
