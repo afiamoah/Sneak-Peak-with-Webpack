@@ -1,3 +1,106 @@
 * {
- background-color: red;
-}
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: sans-serif,Verdana, Geneva, Tahoma, sans-serif;
+ }
+ 
+ .main-container {
+  width: 550px;
+  margin: auto;
+  margin-top: 10%;
+  height: 100%;
+  box-shadow: 10px 5px 5px black;
+  border-radius: 5px;
+  background-color: rgba(245, 245, 245, 0.91);
+  z-index: 10;
+ }
+ 
+ .Todo-Container {
+ display: flex;
+ flex-direction: column;
+ height: 100%;
+ }
+ 
+ .TodoList {
+   display: flex;
+   flex-direction: row;
+   height: 80px;
+   width: 100%;
+   margin-bottom: 1px;
+   border-radius: 5px;
+   background-color: white;
+   padding: 10px;
+ 
+ }
+ 
+ .complete {
+   height: 50px;
+   width: 100%;
+ }
+ 
+ .com-text {
+   margin-left: 30%;
+   margin-top: 6%;
+   list-style: none;
+ }
+ 
+ .header {
+     display: flex;
+     flex-direction: row;
+     justify-content: space-between;
+     padding: 20px;
+     width: 100%;
+     margin-bottom: 5px;
+     border-radius: 5px;
+     box-shadow: 0 0 0 2px whitesmoke;
+     background-color: white;
+ }
+ 
+ i {
+  color: black;
+  margin-top: 7px;
+ }
+ 
+ #del {
+   color: black;
+ }
+ .Add-Todo {
+     display: flex;
+     flex-direction: row;
+     height: 80px;
+     width: 100%;
+     margin-bottom: 5px;
+     border-radius: 5px;
+     background-color: white;
+ }
+ 
+ #text {
+   border: none;
+     background-color: transparent;
+     resize: none;
+     outline: none;
+     margin-left: 10px;
+     font-size: 20px;
+     font-style: italic;
+ }
+ 
+ .list-item {
+   border: none;
+   background-color: transparent;
+   resize: none;
+   outline: none;
+   font-size: 20px;
+   margin-left: 10px;
+ }
+ 
+ .Remove {
+ margin-left: 220px;
+ cursor: pointer;
+ margin-top: 5px;
+ }
+ 
+ .clear {
+   cursor: pointer;
+ }
+ 
