@@ -148,6 +148,67 @@ const UncheckTask= () =>{
   })
   }
 
+  const ClearAllCompletedTask = () =>{
+    document.querySelector('.ClearAll').addEventListener('click',() =>{
+       const AllList=JSON.parse(localStorage.getItem('Todo'));
+       const MyItems=AllList.filter((List)=>{
+           if(List.Completed !=true){
+           return List
+           }
+       })
+       localStorage.setItem('Todo',JSON.stringify(MyItems))
+       ShowItems();
+       document.querySelector('.ClearAll').style.textDecoration= "line-through";
+       })
+    
+       }
+    const ChangeColor = () =>{
+       document.querySelectorAll('.list-items').forEach((container)=>{   
+           container.addEventListener('focus',(event)=>{
+               document.querySelectorAll('.TodoList').forEach((Item,index)=>{   
+                   if(event.target.id == index){          
+                   Item.style.background="lightyellow"
+                   document.getElementById(`del+${index}`).style.visibility="visible"
+                   document.getElementById(`edit+${index}`).style.visibility="hidden"
+    
+                   }
+           })
+    
+       })
+    })
+    
+    document.querySelectorAll('.list-items').forEach((container)=>{   
+       container.addEventListener('focusout',(event)=>{
+           document.querySelectorAll('.TodoList').forEach((Item,index)=>{   
+               if(event.target.id == index){          
+               Item.style.background="white"
+               document.getElementById(`del+${index}`).style.visibility="hidden"
+               document.getElementById(`edit+${index}`).style.visibility="visible"
+               
+               }
+       })
+    
+    })
+    })
+    }
+    
+    const EditItems= () =>{
+       document.querySelectorAll('.list-items').forEach((container)=>{  
+       container.addEventListener('keypress',(event)=>{
+           if(event.key == 'Enter'){
+            const MyItems = JSON.parse(localStorage.getItem('Todo'))
+             MyItems.forEach((List,index)=>{
+              if(event.target.id == index){
+               List.Description = event.target.value;
+               return List
+              }
+            })
+            localStorage.setItem('Todo',JSON.stringify(MyItems))
+            ShowItems();
+           }
+    })
+    })  
+    }
 
 DisplayAllItems();
 ShowAllItems();
