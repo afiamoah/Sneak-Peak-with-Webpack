@@ -20,8 +20,7 @@ local storage.This data can be retrieved dynamically,can be deleted and updated.
 
 ## Getting Started
 
-**This is an example of how you may give instructions on setting up your project locally.**
-**Modify this file to match your project, remove sections that don't apply. For example: delete the testing section if the currect project doesn't require testing.**
+**The application was build using webpack.This contains the starting point scr folder and output folder which is dir folder containg index.js file for executing and building the project.**
 
 
 To get a local copy up and running follow these simple example steps.
@@ -29,6 +28,10 @@ To get a local copy up and running follow these simple example steps.
 ### Prerequisites
 
 ### Setup
+Do a git clone
+`npm init -y` to install all project dependencies
+do `npm i webpack webpack-cli webpack-dev-server --save-dev` to install webpack
+create webpack.config file and do all neccesary configurations including html & css as well as javascript loaders
 
 ### Install
 
@@ -41,6 +44,7 @@ To get a local copy up and running follow these simple example steps.
 
 
 ## Authors
+afiamoah samuel
 
 👤 **Author1**
 
