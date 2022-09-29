@@ -77,7 +77,76 @@ const DisplayAllItems = () =>{
    })
 }
 
+const RemoveItem= () =>{ 
+  document.querySelectorAll('.RemoveItems').forEach((itemtoRemove)=>{
+      itemtoRemove.addEventListener('click',(event)=>{
+      const SelectedItem=event.target.id;
+      const MyItems=ItemsContainer.filter((List,index)=>{
+          if(SelectedItem != index){
+          return List
+          }
+      })
+      localStorage.setItem('Todo',JSON.stringify(MyItems))
+      ShowItems();
+      })
+  })  
+}
 
+const CompletedTrue = (event) =>{ 
+  const getItem=JSON.parse(localStorage.getItem('Todo'));
+  getItem.forEach((item,id) =>{
+      if(event.target.id == id){
+          item.Completed = true;
+          return item
+      }
+    })
+    localStorage.setItem('Todo',JSON.stringify(getItem))  
+
+}
+
+const CompletedFalse = (event) =>{ 
+  const getItem=JSON.parse(localStorage.getItem('Todo'));
+  getItem.forEach((item,id) =>{
+      if(event.target.id == id){
+          item.Completed = false;
+          return item
+      }
+    })
+    localStorage.setItem('Todo',JSON.stringify(getItem))  
+
+}
+
+const CancelTask= () =>{  
+document.querySelectorAll('.cancelItem').forEach((cancelledItem)=>{
+cancelledItem.addEventListener('change',(event)=>{
+  const SelectedItem=event.target.id;
+  if(event.target.checked){
+  document.querySelectorAll('.list-items').forEach((Item,index)=>{
+  if(event.target.id == index){
+  Item.style.textDecoration = "line-through"; 
+  CompletedTrue(event)
+  }
+  })   
+  };
+  })
+  })
+  }
+
+const UncheckTask= () =>{  
+  document.querySelectorAll('.cancelItem').forEach((cancelledItem)=>{
+  cancelledItem.addEventListener('change',(event)=>{
+      const SelectedItem=event.target.id;
+      if(!event.target.checked){
+          document.querySelectorAll('.list-items').forEach((Item,index)=>{
+          if(event.target.id == index){               
+          Item.style.textDecoration = "none"; 
+          CompletedFalse(event)      
+  }
+  })   
+  };
+  })
+  })
+  }
 
 
 DisplayAllItems();
