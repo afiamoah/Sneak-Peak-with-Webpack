@@ -6,7 +6,8 @@ const DeleteItem=document.querySelectorAll('.RemoveItems')
 const Items=document.querySelector('.NewItem')
 let ItemsContainer=[]
 let holdItems={}
-
+let Index=1
+let count=1;
 const Validate = () => {
 if(Items.value !==''){
    return true;
@@ -14,6 +15,29 @@ if(Items.value !==''){
    return false;
 }
 }
+const GetCount = () => {
+    const getCount = JSON.parse(localStorage.getItem('Todo'));
+    if(getCount != null){
+    count=count+getCount.length      
+      return count;
+    }else{
+        count=Index;
+        
+    }
+
+  }
+
+  const SortItems = () =>{
+    const MyItems = JSON.parse(localStorage.getItem('Todo'));
+    ItemsContainer=MyItems
+   for(let x=0;x<ItemsContainer.length;x++){
+    ItemsContainer[x].id=x+1
+   }
+   
+    localStorage.setItem('Todo',JSON.stringify(ItemsContainer))
+    
+
+  }
 
 const ShowAllItems = () =>{
    DisplayItems.innerHTML='';
@@ -53,12 +77,10 @@ const ShowItems = () => {
     });   
 }
 
-  
-
-
 const SaveItems= ()=>{
+    GetCount();
 holdItems = {
-id:1,
+id:count,
 Description:Items.value,
 Completed:false
 }
@@ -77,139 +99,141 @@ const DisplayAllItems = () =>{
    })
 }
 
+
 const RemoveItem= () =>{ 
-  document.querySelectorAll('.RemoveItems').forEach((itemtoRemove)=>{
-      itemtoRemove.addEventListener('click',(event)=>{
-      const SelectedItem=event.target.id;
-      const MyItems=ItemsContainer.filter((List,index)=>{
-          if(SelectedItem != index){
-          return List
-          }
-      })
-      localStorage.setItem('Todo',JSON.stringify(MyItems))
-      ShowItems();
-      })
-  })  
+   document.querySelectorAll('.RemoveItems').forEach((itemtoRemove)=>{
+       itemtoRemove.addEventListener('click',(event)=>{
+       const SelectedItem=event.target.id;
+       const MyItems=ItemsContainer.filter((List,index)=>{
+           if(SelectedItem != index){
+           return List
+           }
+       })
+       localStorage.setItem('Todo',JSON.stringify(MyItems))
+       SortItems()
+       ShowItems();
+       })
+   })  
 }
 
 const CompletedTrue = (event) =>{ 
-  const getItem=JSON.parse(localStorage.getItem('Todo'));
-  getItem.forEach((item,id) =>{
-      if(event.target.id == id){
-          item.Completed = true;
-          return item
-      }
-    })
-    localStorage.setItem('Todo',JSON.stringify(getItem))  
+   const getItem=JSON.parse(localStorage.getItem('Todo'));
+   getItem.forEach((item,id) =>{
+       if(event.target.id == id){
+           item.Completed = true;
+           return item
+       }
+     })
+     localStorage.setItem('Todo',JSON.stringify(getItem))  
 
 }
 
 const CompletedFalse = (event) =>{ 
-  const getItem=JSON.parse(localStorage.getItem('Todo'));
-  getItem.forEach((item,id) =>{
-      if(event.target.id == id){
-          item.Completed = false;
-          return item
-      }
-    })
-    localStorage.setItem('Todo',JSON.stringify(getItem))  
+   const getItem=JSON.parse(localStorage.getItem('Todo'));
+   getItem.forEach((item,id) =>{
+       if(event.target.id == id){
+           item.Completed = false;
+           return item
+       }
+     })
+     localStorage.setItem('Todo',JSON.stringify(getItem))  
 
 }
 
 const CancelTask= () =>{  
 document.querySelectorAll('.cancelItem').forEach((cancelledItem)=>{
 cancelledItem.addEventListener('change',(event)=>{
-  const SelectedItem=event.target.id;
-  if(event.target.checked){
-  document.querySelectorAll('.list-items').forEach((Item,index)=>{
-  if(event.target.id == index){
-  Item.style.textDecoration = "line-through"; 
-  CompletedTrue(event)
-  }
-  })   
-  };
-  })
-  })
-  }
+   const SelectedItem=event.target.id;
+   if(event.target.checked){
+   document.querySelectorAll('.list-items').forEach((Item,index)=>{
+   if(event.target.id == index){
+   Item.style.textDecoration = "line-through"; 
+   CompletedTrue(event)
+   }
+   })   
+   };
+   })
+   })
+   }
 
 const UncheckTask= () =>{  
-  document.querySelectorAll('.cancelItem').forEach((cancelledItem)=>{
-  cancelledItem.addEventListener('change',(event)=>{
-      const SelectedItem=event.target.id;
-      if(!event.target.checked){
-          document.querySelectorAll('.list-items').forEach((Item,index)=>{
-          if(event.target.id == index){               
-          Item.style.textDecoration = "none"; 
-          CompletedFalse(event)      
-  }
-  })   
-  };
-  })
-  })
-  }
+   document.querySelectorAll('.cancelItem').forEach((cancelledItem)=>{
+   cancelledItem.addEventListener('change',(event)=>{
+       const SelectedItem=event.target.id;
+       if(!event.target.checked){
+           document.querySelectorAll('.list-items').forEach((Item,index)=>{
+           if(event.target.id == index){               
+           Item.style.textDecoration = "none"; 
+           CompletedFalse(event)      
+   }
+   })   
+   };
+   })
+   })
+   }
 
-  const ClearAllCompletedTask = () =>{
-    document.querySelector('.ClearAll').addEventListener('click',() =>{
-       const AllList=JSON.parse(localStorage.getItem('Todo'));
-       const MyItems=AllList.filter((List)=>{
-           if(List.Completed !=true){
-           return List
-           }
-       })
-       localStorage.setItem('Todo',JSON.stringify(MyItems))
-       ShowItems();
-       document.querySelector('.ClearAll').style.textDecoration= "line-through";
-       })
-    
+const ClearAllCompletedTask = () =>{
+document.querySelector('.ClearAll').addEventListener('click',() =>{
+   const AllList=JSON.parse(localStorage.getItem('Todo'));
+   const MyItems=AllList.filter((List)=>{
+       if(List.Completed !=true){
+       return List
        }
-    const ChangeColor = () =>{
-       document.querySelectorAll('.list-items').forEach((container)=>{   
-           container.addEventListener('focus',(event)=>{
-               document.querySelectorAll('.TodoList').forEach((Item,index)=>{   
-                   if(event.target.id == index){          
-                   Item.style.background="lightyellow"
-                   document.getElementById(`del+${index}`).style.visibility="visible"
-                   document.getElementById(`edit+${index}`).style.visibility="hidden"
-    
-                   }
-           })
-    
-       })
-    })
-    
-    document.querySelectorAll('.list-items').forEach((container)=>{   
-       container.addEventListener('focusout',(event)=>{
+   })
+   localStorage.setItem('Todo',JSON.stringify(MyItems))
+    SortItems();
+   ShowItems();
+   document.querySelector('.ClearAll').style.textDecoration= "line-through";
+   })
+
+   }
+const ChangeColor = () =>{
+   document.querySelectorAll('.list-items').forEach((container)=>{   
+       container.addEventListener('focus',(event)=>{
            document.querySelectorAll('.TodoList').forEach((Item,index)=>{   
                if(event.target.id == index){          
-               Item.style.background="white"
-               document.getElementById(`del+${index}`).style.visibility="hidden"
-               document.getElementById(`edit+${index}`).style.visibility="visible"
-               
+               Item.style.background="lightyellow"
+               document.getElementById(`del+${index}`).style.visibility="visible"
+               document.getElementById(`edit+${index}`).style.visibility="hidden"
+
                }
        })
-    
-    })
-    })
-    }
-    
-    const EditItems= () =>{
-       document.querySelectorAll('.list-items').forEach((container)=>{  
-       container.addEventListener('keypress',(event)=>{
-           if(event.key == 'Enter'){
-            const MyItems = JSON.parse(localStorage.getItem('Todo'))
-             MyItems.forEach((List,index)=>{
-              if(event.target.id == index){
-               List.Description = event.target.value;
-               return List
-              }
-            })
-            localStorage.setItem('Todo',JSON.stringify(MyItems))
-            ShowItems();
-           }
-    })
-    })  
-    }
 
+   })
+})
+
+document.querySelectorAll('.list-items').forEach((container)=>{   
+   container.addEventListener('focusout',(event)=>{
+       document.querySelectorAll('.TodoList').forEach((Item,index)=>{   
+           if(event.target.id == index){          
+           Item.style.background="white"
+           document.getElementById(`del+${index}`).style.visibility="hidden"
+           document.getElementById(`edit+${index}`).style.visibility="visible"
+           
+           }
+   })
+
+})
+})
+}
+
+const EditItems= () =>{
+   document.querySelectorAll('.list-items').forEach((container)=>{  
+   container.addEventListener('keypress',(event)=>{
+       if(event.key == 'Enter'){
+        const MyItems = JSON.parse(localStorage.getItem('Todo'))
+         MyItems.forEach((List,index)=>{
+          if(event.target.id == index){
+           List.Description = event.target.value;
+           return List
+          }
+        })
+        localStorage.setItem('Todo',JSON.stringify(MyItems))
+        ShowItems();
+       }
+})
+})  
+}
 DisplayAllItems();
 ShowAllItems();
 RemoveItem()
@@ -218,4 +242,6 @@ UncheckTask()
 ClearAllCompletedTask();
 ChangeColor()
 EditItems();
+//https://github.com/rbreva/ToDoList/issues/2#issue-1392539855
+
 
