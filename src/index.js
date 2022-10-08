@@ -1,4 +1,9 @@
 import "./style.css";
+import {CompletedTrue ,CompletedFalse } from "./modules/ClearItems.js"
+import {SortItems} from "./modules/idGenerator.js"
+import EditItems from "./modules/EditTodo.js"
+import ShowItems  from "./modules/ShowItems.js"
+
 const DisplayItems=document.querySelector('.DisplayItems')
 const GetItems=localStorage.getItem('Todo')
 const DeleteItem=document.querySelectorAll('.RemoveItems')
@@ -15,28 +20,27 @@ if(Items.value !==''){
    return false;
 }
 }
+
 const GetCount = () => {
     const getCount = JSON.parse(localStorage.getItem('Todo'));
     if(getCount != null){
     count=count+getCount.length      
       return count;
     }else{
-        count=Index;
-        
+    count=Index;       
     }
+}
 
-  }
-
-  const SortItems = () =>{
-    const MyItems = JSON.parse(localStorage.getItem('Todo'));
-    ItemsContainer=MyItems
-   for(let x=0;x<ItemsContainer.length;x++){
-    ItemsContainer[x].id=x+1
-   }
-   
-    localStorage.setItem('Todo',JSON.stringify(ItemsContainer))
-    
-
+const ShowComplete = () =>{
+   const ListItems=JSON.parse(localStorage.getItem('Todo'))
+   ListItems.forEach((item)=>{
+if(item.Completed){
+    document.querySelectorAll('[data-completed="true"]').forEach((Item)=>{
+        Item.style.textDecoration = "line-through";
+        Item.checked=true
+    })
+}
+   })
   }
 
 const ShowAllItems = () =>{
@@ -48,37 +52,23 @@ const ShowAllItems = () =>{
        DisplayItems.innerHTML+= `
        <div class="TodoList">
        <div class="form">
-    <input type="checkbox" placeholder="..." class="cancelItem" id="${index}"> 
-    <input type="text" class="list-items" value="${item.Description}" id="${index}">
+    <input type="checkbox" placeholder="..." class="cancelItem" id="${index}" data-completed="${item.Completed}"> 
+    <input type="text" class="list-items" value="${item.Description}" id="${index}" data-completed="${item.Completed}">
    </div>
    <span class="RemoveItems" button id="${index}"><i  id="del+${index}" class="fa fa-trash" class="del" name="del" aria-hidden="true"></i><i id="edit+${index}" class="fas fa-ellipsis-v"></i></span>
    </div>
-           `  
+           `   
     });
+    
    }else{
        []
    }
 }
 
-const ShowItems = () => {
-   window.location.reload();
-   DisplayItems.innerHTML='';
-   const AllItems=JSON.parse(localStorage.getItem('Todo'))
-   ItemsContainer=AllItems;
-   ItemsContainer.forEach((item,index) => {
-   DisplayItems.innerHTML+= `
-   <div class="TodoList">
-   <div class="form">
-<input type="checkbox" placeholder="..." class="cancelItem" id="${index}"> 
-   <input type="text" class="list-items" value="${item.Description}" id="${index}">
-</div>
-   <span class="RemoveItems" button id="${index}"><i  id="del+${index}" class="fa fa-trash" aria-hidden="true"></i><i id="edit+${index}" class="fas fa-ellipsis-v"></i></span>
-</div>` 
-    });   
-}
+
 
 const SaveItems= ()=>{
-    GetCount();
+GetCount();
 holdItems = {
 id:count,
 Description:Items.value,
@@ -92,6 +82,7 @@ const DisplayAllItems = () =>{
    Items.addEventListener('keypress',(event)=>{
    if(event.key == 'Enter'){
        if(Validate()){
+        window.location.reload()
            SaveItems();
            ShowItems();
    }
@@ -112,33 +103,14 @@ const RemoveItem= () =>{
        localStorage.setItem('Todo',JSON.stringify(MyItems))
        SortItems()
        ShowItems();
+    window.location.reload();
        })
    })  
 }
 
-const CompletedTrue = (event) =>{ 
-   const getItem=JSON.parse(localStorage.getItem('Todo'));
-   getItem.forEach((item,id) =>{
-       if(event.target.id == id){
-           item.Completed = true;
-           return item
-       }
-     })
-     localStorage.setItem('Todo',JSON.stringify(getItem))  
 
-}
 
-const CompletedFalse = (event) =>{ 
-   const getItem=JSON.parse(localStorage.getItem('Todo'));
-   getItem.forEach((item,id) =>{
-       if(event.target.id == id){
-           item.Completed = false;
-           return item
-       }
-     })
-     localStorage.setItem('Todo',JSON.stringify(getItem))  
 
-}
 
 const CancelTask= () =>{  
 document.querySelectorAll('.cancelItem').forEach((cancelledItem)=>{
@@ -217,23 +189,7 @@ document.querySelectorAll('.list-items').forEach((container)=>{
 })
 }
 
-const EditItems= () =>{
-   document.querySelectorAll('.list-items').forEach((container)=>{  
-   container.addEventListener('keypress',(event)=>{
-       if(event.key == 'Enter'){
-        const MyItems = JSON.parse(localStorage.getItem('Todo'))
-         MyItems.forEach((List,index)=>{
-          if(event.target.id == index){
-           List.Description = event.target.value;
-           return List
-          }
-        })
-        localStorage.setItem('Todo',JSON.stringify(MyItems))
-        ShowItems();
-       }
-})
-})  
-}
+
 DisplayAllItems();
 ShowAllItems();
 RemoveItem()
@@ -242,6 +198,7 @@ UncheckTask()
 ClearAllCompletedTask();
 ChangeColor()
 EditItems();
+ShowComplete()
 //https://github.com/rbreva/ToDoList/issues/2#issue-1392539855
 
 
